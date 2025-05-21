@@ -1,3 +1,5 @@
+<svelte:options runes />
+
 <script>
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
@@ -22,11 +24,11 @@
 
 	let fabricEl;
 	let fabric;
-	let center = [0, 0];
-	let zoom = 1.0;
+	let center = $state([0, 0]);
+	let zoom = $state(1.0);
 	let moving = -1; // are we moving
 	let movingOrigin = [0, 0]; // Coordinates of mouse at origin when drag started.
-	let movingSize = { x: 0, y: 0, rows: 24, cols: 80 }; // New [x, y] position of the dragged terminal.
+	let movingSize = $state({ x: 0, y: 0, rows: 24, cols: 80 }); // New [x, y] position of the dragged terminal.
 	let movingIsDone = false; // Moving finished but hasn't been acknowledged.
 
 	onMount(() => {
