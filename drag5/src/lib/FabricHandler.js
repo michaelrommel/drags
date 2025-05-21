@@ -14,17 +14,20 @@ function FabricHandler(opts) {
 
 	const that = this;
 
-	console.log(opts.fabricEl);
-
-	this._handleDrag = ({ delta, elapsedTime }) => {
-		if (delta[0] === 0 && delta[1] === 0 && elapsedTime < 200) return;
-		that.center = Vec.sub(that.center, Vec.div(delta, that.zoom));
-		that._moved();
+	this._handleDrag = (state) => {
+		if (state.delta[0] === 0 && state.delta[1] === 0 && state.elapsedTime < 200)
+			return;
+		that.center = Vec.sub(that.center, Vec.div(state.delta, that.zoom));
+		that._moved(state);
 	};
 
-	this._moved = (manual = true) => {
+	this._handlePointerdown = (state) => {
+		that._moved(state);
+	};
+
+	this._moved = (state) => {
 		for (const callback of that.callbacks) {
-			callback(manual);
+			callback(state);
 		}
 	};
 
@@ -33,7 +36,10 @@ function FabricHandler(opts) {
 		return () => that.callbacks.delete(callback);
 	};
 
-	this.gest = new Gesture(opts.fabricEl, { onDrag: that._handleDrag });
+	this.gest = new Gesture(opts.fabricEl, {
+		onDrag: that._handleDrag,
+		onPointerDown: that._handlePointerdown
+	});
 }
 
 export default FabricHandler;

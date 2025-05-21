@@ -30,13 +30,17 @@
 	let movingIsDone = false; // Moving finished but hasn't been acknowledged.
 
 	onMount(() => {
-		console.log(fabricEl);
 		fabric = new FabricHandler({ fabricEl });
-		fabric.onMove(() => {
-			console.log(`onMove in: ${center}/${zoom}`);
+		fabric.onMove((state) => {
+			console.log(state);
+			if (state.event.type === "pointerdown") {
+				console.log(`onMove in: ${center}/${zoom}`);
+			}
 			center = fabric.center;
 			zoom = fabric.zoom;
-			console.log(`onMove out: ${center}/${zoom}`);
+			if (state.last) {
+				console.log(`onMove out: ${center}/${zoom}`);
+			}
 		});
 	});
 
@@ -66,6 +70,11 @@
 			window.removeEventListener("mouseup", handleMouseEnd);
 		};
 	});
+
+	function listen(node, { name, handler }) {
+		node.addEventListener(name, handler);
+		return { destroy: () => node.removeEventListener(name, handler) };
+	}
 </script>
 
 <div
@@ -105,14 +114,16 @@
 		<div
 			style:background-color="green"
 			style:padding="2rem"
-			onpointerdown={(event) => {
-				console.log("startmoving");
-				const [x, y] = normalizePosition(event);
-				moving = 1;
-				movingOrigin = [x - movingSize.x, y - movingSize.y];
-				movingIsDone = false;
-				event.stopPropagation();
-				event.stopImmediatePropagation();
+			use:listen={{
+				name: "pointerdown",
+				handler: (event) => {
+					console.log("startmoving");
+					const [x, y] = normalizePosition(event);
+					moving = 1;
+					movingOrigin = [x - movingSize.x, y - movingSize.y];
+					movingIsDone = false;
+					event.stopPropagation();
+				},
 			}}
 		>
 			This is version 5.
