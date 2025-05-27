@@ -62,9 +62,9 @@
 	style:background-size="{24 * zoom}px {24 * zoom}px, {24 * zoom}px {24 *
 		zoom}px"
 	style:background-repeat="repeat, no-repeat"
-	style:background-position="{-zoom * (center[0] + 12)}px {-zoom *
-		(center[1] + 12)}px, {-zoom * (center[0] + 12)}px {-zoom *
-		(center[1] + 12)}px"
+	style:background-position="{zoom * (center[0] - 12)}px {zoom *
+		(center[1] - 12)}px, {zoom * (center[0] - 12)}px {zoom *
+		(center[1] - 12)}px"
 ></div>
 <div
 	class="absolute inset-0 overflow-hidden touch-none"

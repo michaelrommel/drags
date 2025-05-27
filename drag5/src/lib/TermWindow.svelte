@@ -9,7 +9,7 @@
 
 	const OFFSET_LEFT_CSS = "0px";
 	const OFFSET_TOP_CSS = "0px";
-	const OFFSET_TRANSFORM_ORIGIN_CSS = `calc(-1 * ${OFFSET_LEFT_CSS}) calc(-1 * ${OFFSET_TOP_CSS})`;
+	const OFFSET_TRANSFORM_ORIGIN_CSS = `calc(${OFFSET_LEFT_CSS}) calc( ${OFFSET_TOP_CSS})`;
 
 	let { center, zoom, terminalWindow = $bindable(), focusWindow } = $props();
 	// let terminalWindow = { x: 0, y: 0, rows: 24, cols: 80 };
@@ -25,12 +25,9 @@
 	// Returns the mouse position in infinite grid coordinates,
 	// offset transformations and zoom.
 	function normalizePosition(event) {
-		// const [ox, oy] = getConstantOffset();
-		let ox = 0;
-		let oy = 0;
 		return [
-			Math.round(center[0] + event.pageX / zoom - ox),
-			Math.round(center[1] + event.pageY / zoom - oy),
+			Math.round(center[0] + event.pageX / zoom),
+			Math.round(center[1] + event.pageY / zoom),
 		];
 	}
 
@@ -115,7 +112,7 @@
 						$state.snapshot(tweenie?.current.winSize?.x),
 					),
 			);
-			node.style.transform = `scale(${(tweenie?.current.zoom * 100).toFixed(3)}%) translate3d(${tweenie?.current.winSize?.x - tweenie?.current.center?.[0]}px, ${tweenie?.current.winSize?.y - tweenie?.current.center?.[1]}px, 0)`;
+			node.style.transform = `scale(${(tweenie?.current.zoom * 100).toFixed(3)}%) translate3d(${tweenie?.current.winSize?.x + tweenie?.current.center?.[0]}px, ${tweenie?.current.winSize?.y + tweenie?.current.center?.[1]}px, 0)`;
 			node.style["z-index"] = tweenie?.current.winSize?.z;
 		});
 	};
@@ -143,11 +140,11 @@
 					aria-label="Close"
 				></button>
 				<button
-					class="bg-yellow-500 w-3 h-3 rounded-full"
+					class="bg-yellow-300 w-3 h-3 rounded-full"
 					aria-label="Shrink"
 				></button>
 				<button
-					class="bg-green-500 w-3 h-3 rounded-full"
+					class="bg-green-400 w-3 h-3 rounded-full"
 					aria-label="Expand"
 				></button>
 			</div>
