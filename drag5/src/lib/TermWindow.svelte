@@ -68,8 +68,8 @@
 			event.stopPropagation();
 		}
 
-		on(window, "mousemove", handleMouse);
-		on(window, "mouseup", handleMouseEnd);
+		on(window, "pointermove", handleMouse);
+		on(window, "pointerup", handleMouseEnd);
 		on(windowElement, "pointerdown", handlePointerDown);
 	});
 
@@ -170,7 +170,7 @@ z={tweenie.current.winSize.z.toFixed(3)}
 center=[ {tweenie.current.center[0].toFixed(
 				0,
 			)}, {tweenie.current.center[1].toFixed(0)} ]
-zoom={tweenie.current.zoom}
+zoom={tweenie.current.zoom.toFixed(3)}
 		</pre>
 	</div>
 </div>

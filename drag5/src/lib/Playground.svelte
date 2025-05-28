@@ -7,6 +7,7 @@
 	import TermWindow from "./TermWindow.svelte";
 
 	let fabricElement;
+	let consoleElement;
 	let fabric;
 	let center = $state([0, 0]);
 	let zoom = $state(1.0);
@@ -17,7 +18,10 @@
 	]);
 
 	onMount(() => {
-		fabric = new FabricHandler({ fabricEl: fabricElement });
+		fabric = new FabricHandler({
+			fabricEl: fabricElement,
+			consoleEl: consoleElement,
+		});
 		fabric.onMove((state) => {
 			center = fabric.center;
 			zoom = fabric.zoom;
@@ -78,4 +82,7 @@
 			{focusWindow}
 		/>
 	{/each}
+</div>
+<div class="absolute bottom-0 inset-x-0 px-2 h-64 bg-emerald-200 text-zinc-800">
+	<pre id="console" bind:this={consoleElement}></pre>
 </div>
