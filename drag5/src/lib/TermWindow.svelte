@@ -41,7 +41,7 @@
 					JSON.stringify($state.snapshot(terminalWindow)),
 			);
 		});
-		function handleMouse(event) {
+		function handlePointerMove(event) {
 			if (isMoving !== -1 && !movingIsDone) {
 				const [x, y] = normalizePosition(event);
 				terminalWindow = {
@@ -51,14 +51,14 @@
 				};
 			}
 		}
-		function handleMouseEnd(event) {
+		function handlePointerEnd(event) {
 			if (isMoving !== -1) {
 				movingIsDone = true;
 				isMoving = -1;
 				immediate = true;
 			}
 		}
-		function handlePointerDown(event) {
+		function handlePointerStart(event) {
 			const [x, y] = normalizePosition(event);
 			isMoving = 1;
 			movingOrigin = [x - terminalWindow.x, y - terminalWindow.y];
@@ -68,9 +68,17 @@
 			event.stopPropagation();
 		}
 
-		on(window, "pointermove", handleMouse);
-		on(window, "pointerup", handleMouseEnd);
-		on(windowElement, "pointerdown", handlePointerDown);
+		function focusTerminal(event) {
+			// console.log(event);
+			focusWindow(terminalWindow.id);
+			event.stopPropagation();
+		}
+
+		on(window, "pointermove", handlePointerMove);
+		on(window, "pointerup", handlePointerEnd);
+		on(windowElement, "pointerdown", handlePointerStart);
+		on(terminalElement, "pointerdown", focusTerminal);
+		on(terminalElement, "wheel", focusTerminal);
 	});
 
 	tweenie = Tween.of(
@@ -158,7 +166,7 @@
 	</div>
 
 	<div
-		class="p-2 text-slate-100 bg-gray-800 rounded-b-2xl"
+		class="p-2 text-slate-100 bg-gray-800 rounded-b-2xl w-[20rem] h-[250px] overflow-y-scroll overflow-x-hidden"
 		bind:this={terminalElement}
 	>
 		Windows with Svelte 5.<br /><br />
@@ -171,6 +179,26 @@ center=[ {tweenie.current.center[0].toFixed(
 				0,
 			)}, {tweenie.current.center[1].toFixed(0)} ]
 zoom={tweenie.current.zoom.toFixed(3)}
+
+And this is some long text, so that this div will overflow
+and I have the chance to see scrolling with the wheel working.
+And this is some long text, so that this div will overflow
+and I have the chance to see scrolling with the wheel working.
+And this is some long text, so that this div will overflow
+and I have the chance to see scrolling with the wheel working.
+And this is some long text, so that this div will overflow
+and I have the chance to see scrolling with the wheel working.
+And this is some long text, so that this div will overflow
+and I have the chance to see scrolling with the wheel working.
+And this is some long text, so that this div will overflow
+and I have the chance to see scrolling with the wheel working.
+And this is some long text, so that this div will overflow
+and I have the chance to see scrolling with the wheel working.
+And this is some long text, so that this div will overflow
+and I have the chance to see scrolling with the wheel working.
+And this is some long text, so that this div will overflow
+and I have the chance to see scrolling with the wheel working.
+
 		</pre>
 	</div>
 </div>
