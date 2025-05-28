@@ -27,12 +27,12 @@
 			zoom = fabric.zoom;
 		});
 
-		$effect(() => {
-			console.log(
-				"effect fabric: " +
-					JSON.stringify($state.snapshot(terminalWindows)),
-			);
-		});
+		// $effect(() => {
+		// 	console.log(
+		// 		"effect fabric: " +
+		// 			JSON.stringify($state.snapshot(terminalWindows)),
+		// 	);
+		// });
 	});
 
 	const focusWindow = (id) => {

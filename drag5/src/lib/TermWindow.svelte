@@ -32,15 +32,16 @@
 	}
 
 	onMount(() => {
-		console.log(
-			"onMount: " + JSON.stringify($state.snapshot(terminalWindow)),
-		);
-		$effect(() => {
-			console.log(
-				"effect child: " +
-					JSON.stringify($state.snapshot(terminalWindow)),
-			);
-		});
+		// console.log(
+		// 	"onMount: " + JSON.stringify($state.snapshot(terminalWindow)),
+		// );
+		// $effect(() => {
+		// 	console.log(
+		// 		"effect child: " +
+		// 			JSON.stringify($state.snapshot(terminalWindow)),
+		// 	);
+		// });
+
 		function handlePointerMove(event) {
 			if (isMoving !== -1 && !movingIsDone) {
 				const [x, y] = normalizePosition(event);
@@ -110,16 +111,16 @@
 
 	const sl = (node) => {
 		$effect(() => {
-			console.log(
-				"ef slide child: " +
-					JSON.stringify(
-						$state.snapshot(tweenie?.current.winSize?.id),
-					) +
-					" => " +
-					JSON.stringify(
-						$state.snapshot(tweenie?.current.winSize?.x),
-					),
-			);
+			// console.log(
+			// 	"ef slide child: " +
+			// 		JSON.stringify(
+			// 			$state.snapshot(tweenie?.current.winSize?.id),
+			// 		) +
+			// 		" => " +
+			// 		JSON.stringify(
+			// 			$state.snapshot(tweenie?.current.winSize?.x),
+			// 		),
+			// );
 			node.style.transform = `scale(${(tweenie?.current.zoom * 100).toFixed(3)}%) translate3d(${tweenie?.current.winSize?.x + tweenie?.current.center?.[0]}px, ${tweenie?.current.winSize?.y + tweenie?.current.center?.[1]}px, 0)`;
 			node.style["z-index"] = tweenie?.current.winSize?.z;
 		});
