@@ -15,9 +15,11 @@ function FabricHandler(opts) {
 
 	this.center = [0, 0];
 	this.zoom = 1.0;
-	this._fabricOffset = [
-		this.fabricEl.getBoundingClientRect().x,
-		this.fabricEl.getBoundingClientRect().y
+	this.fabricOffset = [
+		this.fabricEl.getBoundingClientRect().x +
+			(window.pageXOffset || window.scrollX),
+		this.fabricEl.getBoundingClientRect().y +
+			(window.pageYOffset || window.scrollY)
 	];
 	this._centerToPinchOrigin = undefined;
 	this._zoomBeforePinch = 1.0;
@@ -53,7 +55,7 @@ function FabricHandler(opts) {
 			(event.altKey || event.ctrlKey || event.metaKey) &&
 			event.buttons === 0
 		) {
-			let _centerToWheelRelative = Vec.sub(_origin, that._fabricOffset);
+			let _centerToWheelRelative = Vec.sub(_origin, that.fabricOffset);
 			let _centerToWheelOrigin = Vec.div(
 				Vec.sub(_centerToWheelRelative, Vec.mul(that.center, that.zoom)),
 				that.zoom
@@ -92,7 +94,7 @@ function FabricHandler(opts) {
 
 		// origin of the pinch gesture is in screen pixels
 		// we need to account for an offset of the fabric div element
-		let _pinchRelative = Vec.sub(origin, that._fabricOffset);
+		let _pinchRelative = Vec.sub(origin, that.fabricOffset);
 		// center is in virtual coordinates, needs multiplication to
 		// arrive at screen pixels
 		that._centerToPinchOrigin = Vec.sub(
@@ -118,7 +120,7 @@ function FabricHandler(opts) {
 			MAX_ZOOM
 		);
 
-		let _pinchRelative = Vec.sub(origin, that._fabricOffset);
+		let _pinchRelative = Vec.sub(origin, that.fabricOffset);
 		// center is in virtual coordinates with zoom considered
 		that.center = Vec.sub(
 			// screen pixel vector of the pinch gesture origin divided by new zoom

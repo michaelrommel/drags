@@ -54,6 +54,18 @@
 			});
 	};
 
+	// this function is used to scroll to the top of the fabric and
+	// all the way to the left. So the users can doubletap the canvas
+	// and return to a safe spot, where they are able to use the
+	// normal device zoom functions again.
+	const scrollToEdge = () => {
+		window.scrollTo(0, fabric.fabricOffset[1]);
+	};
+
+	// this is an alternative to the on() function that also
+	// allows us to use the stopPropagation() method, it would
+	// be used like
+	// "use:listen={{ name: 'click', handler: (e) => e.stopPropagation() }}"
 	// function listen(node, { name, handler }) {
 	// 	node.addEventListener(name, handler);
 	// 	return { destroy: () => node.removeEventListener(name, handler) };
@@ -76,6 +88,8 @@
 	<div
 		class="absolute top-[0px] inset-0 overflow-hidden touch-none"
 		bind:this={fabricElement}
+		ondblclick={scrollToEdge}
+		role="none"
 	>
 		{#each terminalWindows as terminalWindow, i (terminalWindow.id)}
 			<TermWindow
