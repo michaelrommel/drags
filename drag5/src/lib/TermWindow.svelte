@@ -122,6 +122,8 @@
 			// 		),
 			// );
 			node.style.transform = `scale(${(tweenie?.current.zoom * 100).toFixed(3)}%) translate3d(${tweenie?.current.winSize?.x + tweenie?.current.center?.[0]}px, ${tweenie?.current.winSize?.y + tweenie?.current.center?.[1]}px, 0)`;
+			// node.style.transform = `scale(${(tweenie?.current.zoom * 100).toFixed(3)}%)`;
+			// node.style.transform = `translate3d(${(tweenie?.current.winSize?.x + tweenie?.current.center?.[0]) * tweenie?.current.zoom}px, ${(tweenie?.current.winSize?.y + tweenie?.current.center?.[1]) * tweenie?.current.zoom}px, 0)`;
 			node.style["z-index"] = tweenie?.current.winSize?.z;
 		});
 	};
@@ -136,7 +138,7 @@
 	class="absolute bg-gray-900 border rounded-2xl"
 	style:left={OFFSET_LEFT_CSS}
 	style:top={OFFSET_TOP_CSS}
-	style:transform-origin={OFFSET_TRANSFORM_ORIGIN_CSS}
+	style:transform-origin="top left"
 	transition:fade|local
 	use:sl
 	bind:this={windowElement}
@@ -168,6 +170,7 @@
 
 	<div
 		class="p-2 text-slate-100 bg-gray-800 rounded-b-2xl w-[20rem] h-[250px] overflow-y-scroll overflow-x-hidden"
+		style:scrollbar-color="gray rgba(0, 0, 0, 0)"
 		bind:this={terminalElement}
 	>
 		Windows with Svelte 5.<br /><br />

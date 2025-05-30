@@ -9,12 +9,13 @@
 	let fabricElement;
 	let consoleElement;
 	let fabric;
+	let gridSpacing = 32;
 	let center = $state([0, 0]);
 	let zoom = $state(1.0);
 	let terminalWindows = $state([
-		{ id: 1, z: 1, x: 100, y: 20, rows: 24, cols: 80 },
-		{ id: 2, z: 3, x: 150, y: 80, rows: 24, cols: 80 },
-		{ id: 3, z: 2, x: 200, y: 40, rows: 24, cols: 80 },
+		{ id: 1, z: 1, x: 96, y: 32, rows: 24, cols: 80 },
+		{ id: 2, z: 3, x: 0, y: 0, rows: 24, cols: 80 },
+		{ id: 3, z: 2, x: 64, y: 64, rows: 24, cols: 80 },
 	]);
 
 	onMount(() => {
@@ -59,30 +60,35 @@
 	// }
 </script>
 
-<div
-	class="absolute inset-0 -z-10 bg-[#212121]"
-	style:background-image="radial-gradient(#404040 {1.5 * zoom}px, transparent
-	0), radial-gradient(#a00000 {5 * zoom}px, transparent 0)"
-	style:background-size="{24 * zoom}px {24 * zoom}px, {24 * zoom}px {24 *
-		zoom}px"
-	style:background-repeat="repeat, no-repeat"
-	style:background-position="{zoom * (center[0] - 12)}px {zoom *
-		(center[1] - 12)}px, {zoom * (center[0] - 12)}px {zoom *
-		(center[1] - 12)}px"
-></div>
-<div
-	class="absolute inset-0 overflow-hidden touch-none"
-	bind:this={fabricElement}
->
-	{#each terminalWindows as terminalWindow, i (terminalWindow.id)}
-		<TermWindow
-			{center}
-			{zoom}
-			bind:terminalWindow={terminalWindows[i]}
-			{focusWindow}
-		/>
-	{/each}
-</div>
-<div class="absolute bottom-0 inset-x-0 px-2 h-64 bg-emerald-200 text-zinc-800">
-	<pre id="console" bind:this={consoleElement}></pre>
+<div class="relative top-32 h-[1000px] left-16 w-[1500px]">
+	<div
+		class="absolute inset-0 -z-10 bg-[#212121]"
+		style:background-image="radial-gradient(#404040 {1.5 * zoom}px,
+		transparent 0), radial-gradient(#8800ff {5 * zoom}px, transparent 0)"
+		style:background-size="{gridSpacing * zoom}px {gridSpacing * zoom}px, {gridSpacing *
+			zoom}px {gridSpacing * zoom}px"
+		style:background-repeat="repeat, no-repeat"
+		style:background-position="{zoom * (center[0] - gridSpacing / 2)}px {zoom *
+			(center[1] - gridSpacing / 2)}px, {zoom *
+			(center[0] - gridSpacing / 2)}px {zoom *
+			(center[1] - gridSpacing / 2)}px"
+	></div>
+	<div
+		class="absolute top-[0px] inset-0 overflow-hidden touch-none"
+		bind:this={fabricElement}
+	>
+		{#each terminalWindows as terminalWindow, i (terminalWindow.id)}
+			<TermWindow
+				{center}
+				{zoom}
+				bind:terminalWindow={terminalWindows[i]}
+				{focusWindow}
+			/>
+		{/each}
+	</div>
+	<div
+		class="absolute bottom-0 inset-x-0 px-2 h-64 bg-emerald-200 text-zinc-800"
+	>
+		<pre id="console" bind:this={consoleElement}></pre>
+	</div>
 </div>
